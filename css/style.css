@@ -1,0 +1,518 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   Custom Fonts
+   ========================= */
+
+@font-face {
+  font-family: "BalooRegular";
+  src: url("../assets/fonts/BalooRegular400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BerkshireSwash";
+  src: url("../assets/fonts/BerkshireSwash-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ChaparralPro";
+  src: url("../assets/fonts/ChaparralPro-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+@font-face {
+  font-family: "ITFDevanagari";
+  src: url("../../fonts/ITFDevanagari.ttc") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NotoSansGujaratiRegular";
+  src: url("../../fonts/NotoSansGujarati-Regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+:root {
+  --primary: #FFF8B3;
+  --accent: #FAA22C;
+  --text: #9A3227;
+  --bg: #AFE2FD;
+}
+
+body[data-lang="Hindi"] {
+  font-family: "ITFDevanagari"!important;
+  font-weight: 400!important;
+}
+
+body[data-lang="Gujarati"] {
+  font-family: "NotoSansGujaratiRegular"!important;
+  font-weight: 700!important;
+}
+
+
+/* main */
+
+.container {
+  position: relative;
+  width: 90%;
+  height: 42vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* NEW: zoom-in state triggered when rounded-circle-1 is clicked */
+.hero-img.zoom-in {
+  transform: scale(1.1);
+}
+
+.hero-img img {
+  width: 82vw;
+  height: 42vw;
+  object-fit: stretch;
+  margin: 0 auto;
+}
+
+.mascot-1 {
+  position: absolute;
+  width: 30%;
+  height: 37vw;
+  left: 2%;
+  top: 18%;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease;
+}
+
+/* NEW: slide mascot off to the left when triggered */
+.mascot-1.slide-left {
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.mascot-1 img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.title {
+  position: absolute;
+  width: 50vw;
+  height: 10vw;
+  top: 7%;
+  left: 50%;
+  transform: translateX(-40%);
+}
+
+.title h1 {
+  font-size: 8vw !important;
+  font-family: "BerkshireSwash";
+  text-align: center;
+  color: var(--primary);
+}
+
+/* =========================
+   Circle Container (original)
+   ========================= */
+
+.circle-container {
+  position: absolute;
+  width: 45vw;
+  height: 16vw;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+  align-items: center;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+}
+
+.circle-container.hide {
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.circle-container .circle {
+  position: relative;
+}
+
+.circle-container .circle img {
+  width: 12vw;
+  height: 12vw;
+  object-fit: contain;
+  transform: scale(1) rotate(0deg);
+  transition: transform 1s ease;
+  transform-origin: center;
+}
+
+.circle-container .circle:hover img {
+  transform: scale(1.03) rotate(50deg);
+}
+
+.circle-container .circle .circle-content {
+  position: absolute;
+  width: 10.2vw;
+  height: 10.2vw;
+  background-color: #FFF0B5;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  outline: 0.25vb solid #6E1332;
+  outline-offset: -0.8vw;
+  font-family: "BalooRegular";
+  transition: outline-offset 1s ease;
+}
+
+.circle-container .circle:hover .circle-content {
+  outline-offset: -0.5vw;
+}
+
+.circle-container .circle .circle-content span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  line-height: 2.5vw;
+  font-size: 2vw;
+  color: var(--text);
+  transform: translate(-50%, -50%) scale(1);
+  text-align: center;
+  transition: transform 2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-container .circle:hover .circle-content span {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* =========================
+   Circle Container 1 (new — slides up from below into
+   the exact same spot as .circle-container)
+   ========================= */
+
+.circle-container-1 {
+  position: absolute;
+  width: 45vw;
+  height: 16vw;
+  bottom: 60%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+  align-items: center;
+  transform: translate(-50%, 50%); /* pushed below, out of view */
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+}
+
+.circle-container-1.show {
+  top: 60%;
+  transform: translate(-50%, -50%); /* slides up into the original position */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* when a sub-circle is picked, container-1 exits back down out of view */
+.circle-container-1.hide {
+  top: 100%;
+  transform: translate(-50%, 150%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.circle-container-1 .circle {
+  position: relative;
+}
+
+.circle-container-1 .circle img {
+  width: 12vw;
+  height: 12vw;
+  object-fit: contain;
+  transform: scale(1) rotate(0deg);
+  transition: transform 1s ease;
+  transform-origin: center;
+}
+
+.circle-container-1 .circle:hover img {
+  transform: scale(1.03) rotate(50deg);
+}
+
+.circle-container-1 .circle .circle-content {
+  position: absolute;
+  width: 10.2vw;
+  height: 10.2vw;
+  background-color: #FFF0B5;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  outline: 0.25vb solid #6E1332;
+  outline-offset: -0.8vw;
+  font-family: "BalooRegular";
+  transition: outline-offset 1s ease;
+}
+
+.circle-container-1 .circle:hover .circle-content {
+  outline-offset: -0.5vw;
+}
+
+.circle-container-1 .circle .circle-content span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  line-height: 2.5vw;
+  font-size: 2vw;
+  color: var(--text);
+  transform: translate(-50%, -50%) scale(1);
+  text-align: center;
+  transition: transform 2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-container-1 .circle:hover .circle-content span {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* =========================
+   Nav / language switcher
+   ========================= */
+
+nav {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-lang-container {
+  position: absolute;
+  width: 8.5vw;
+  height: 3vw;
+  display: flex;
+  top: 2.8vw;
+  right: 6%;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.nav-lang-container .nav-btn {
+  width: 2.2vw;
+  height: 2.2vw;
+  font-family: "BalooRegular";
+  text-align: center;
+  border-radius: 50%;
+  z-index: 11;
+  border: 0.3vb solid var(--text);
+  padding: 0.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vw;
+  color: var(--text);
+  opacity: 0.6;
+  cursor: pointer !important;
+  transition: transform 250ms ease, opacity 250ms ease, background-color 0.8s ease;
+  transform: scale(1);
+  background-color: transparent;
+}
+
+.nav-lang-container .nav-btn.active {
+  display: flex;
+  justify-content: center;
+  align-items: center !important;
+  opacity: 1;
+  transform: scale(1.15);
+  background-color: var(--primary);
+}
+
+.moving-circle {
+  position: absolute;
+  pointer-events: none;
+  top: 2.74vw;
+  right: 11.54%;
+  z-index: 0;
+  width: 3vw;
+  height: 3vw;
+  border: 0.3vb solid var(--text);
+  border-radius: 50%;
+  transition: transform 300ms ease;
+}
+
+@keyframes jiggleX {
+  0%   { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0); }
+  25%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(-0.6vw); }
+  50%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0.6vw); }
+  75%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(-0.3vw); }
+  90%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0.3vw); }
+  100% { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0); }
+}
+
+.moving-circle.jiggle {
+  animation: jiggleX 0.9s ease-in-out 1;
+}
+
+.pranam-container {
+  position: absolute;
+  width: 45vw;
+  height: auto;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pranam-container>.pranam-img {
+  position: relative;
+  width: 85%;
+  height: auto;
+  display: block;
+}
+
+.pranam-container>.pranam-img>img {
+  width: 100%;
+  display: block;
+}
+
+.pranam-img span {
+  z-index: 15;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  font-size: 3.4vw;
+  transform: translateX(-50%);
+  font-family: "BalooRegular";
+  color: #802922;
+}
+
+.pranam-container .home-btn-1 {
+  position: absolute;
+  top: 88%;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  width: 15vw;
+  height: auto;
+  transition: transform 0.2s ease;
+  transform-origin: center center;
+}
+
+.pranam-container .home-btn-1:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
+
+.pranam-container .home-btn-1 img {
+  width: 100%;
+  display: block;
+}
+
+.home-btn-1 span {
+  width: 8vw;
+  z-index: 15;
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  font-size: 2.5vw;
+  transform: translateY(-50%);
+  font-family: "BalooRegular";
+  color: #821b00;
+  text-align: center;
+}
+
+.back-btn {
+  position: absolute;
+  left: 4%;
+  top: 4%;
+  width: 3vw;
+  height: 3vw;
+  background-color: #A60B0B;
+  border: 0.25vw solid white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+  z-index: 50;
+}
+
+.back-btn i {
+  color: white;
+  font-size: 1vw;
+  transition: font-size 0.3s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+  background-color: white;
+}
+
+.back-btn:hover i {
+  font-size: 1.2vw;
+  color: #A60B0B !important;
+}
+
+
+  .pranam-video{
+    position: absolute;
+    left: 51%;
+    top: 49%;
+    transform: translate(-50%,-50%);
+    width: 28vw;
+    height: 28vw;
+    border-radius: 50%;
+background-color: white;
+  }
+
+  .pranam-video video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }

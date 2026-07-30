@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>types-of-puja</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      main {
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background-image: url("./assets/image/background-image-1.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "BalooRegular";
+      }
+
+      /* =========================
+         Home Button
+         ========================= */
+
+      .home-btn {
+        position: fixed;
+        top: 2.5vw;
+        left: 4%;
+        width: 3.5vw;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
+        transition:
+          opacity 0.5s ease,
+          transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .home-btn.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1);
+      }
+
+      .home-btn:hover {
+        transform: scale(1.15);
+      }
+
+      .home-btn img {
+        width: 100%;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- main start -->
+    <main>
+      <!-- home button: hidden until rounded-circle-1 is clicked -->
+      <a href="index.html" class="home-btn">
+        <img src="./assets/image/home-img.png" alt="Home" />
+      </a>
+
+      <!-- nav start -->
+      <nav>
+        <div class="nav-lang-container">
+          <div class="nav-btn english">E</div>
+          <div class="nav-btn hindi">H</div>
+          <div class="nav-btn gujrati">G</div>
+        </div>
+
+        <div class="moving-circle"></div>
+      </nav>
+      <!-- nav end -->
+
+      <!-- container start -->
+      <div class="container">
+        <!-- hero image start -->
+        <div class="hero-img">
+          <div class="title">
+            <h1 data-lang-key="title">Types Of Puja</h1>
+          </div>
+
+          <img src="./assets/image/hero-img.png" alt="" />
+
+          <!-- original circle container -->
+          <div class="circle-container">
+            <div class="circle rounded-circle-1">
+              <a href="anga-puja.html" class="circle-trigger">
+                <img src="./assets/image/circle-img.png" alt="" />
+
+                <div class="circle-content">
+                  <span data-lang-key="type-4">Anga Puja</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="circle rounded-circle-2">
+              <a href="bhaav-puja.html">
+                <img src="./assets/image/circle-img.png" alt="" />
+
+                <div class="circle-content">
+                  <span data-lang-key="type-3">Bhaav Puja</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- new circle container -->
+          <div class="circle-container-1">
+            <div class="circle rounded-circle-4">
+              <a href="anga-puja.html">
+                <img src="./assets/image/circle-img.png" alt="" />
+
+                <div class="circle-content">
+                  <span data-lang-key="type-1">Sub Option 2</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="circle rounded-circle-4">
+              <a href="agra-puja.html">
+                <img src="./assets/image/circle-img.png" alt="" />
+
+                <div class="circle-content">
+                  <span data-lang-key="type-2">Sub Option 2</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- hero image end -->
+      </div>
+      <!-- container end -->
+
+      <div class="mascot-1">
+        <img src="./assets/image/mascot-1.png" alt="" />
+      </div>
+    </main>
+    <!-- main end -->
+
+    <script src="./js/script.js"></script>
+
+    <script>
+      const heroImg = document.querySelector(".hero-img");
+      const mascot = document.querySelector(".mascot-1");
+      const homeBtn = document.querySelector(".home-btn");
+
+      const angaTrigger = document.querySelector(".circle-trigger");
+      const subCircleTrigger = document.querySelector(".sub-circle-trigger");
+
+      const oldCircleContainer =
+        document.querySelector(".circle-container");
+
+      const newCircleContainer =
+        document.querySelector(".circle-container-1");
+
+      // =========================
+      // Circle click sound
+      // =========================
+      const circleClickSound = new Audio("./assets/audio/11.mp3");
+
+      function playCircleClickSound() {
+        circleClickSound.currentTime = 0;
+
+        circleClickSound.play().catch(function (error) {
+          console.error("Error playing circle click sound:", error);
+        });
+      }
+
+      // =========================
+      // Home button sound
+      // =========================
+      const homeClickSound = new Audio("./assets/audio/pop.mp3");
+
+      homeBtn?.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const destination = homeBtn.getAttribute("href");
+
+        homeClickSound.currentTime = 0;
+
+        homeClickSound.play().catch(function (error) {
+          console.error("Error playing home button sound:", error);
+        });
+
+        setTimeout(function () {
+          window.location.href = destination;
+        }, 500);
+      });
+
+      // Step 1:
+      // Anga Puja circle clicked
+      angaTrigger?.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        playCircleClickSound();
+
+        oldCircleContainer.classList.add("hide");
+        newCircleContainer.classList.add("show");
+
+        mascot.classList.add("slide-left");
+        heroImg.classList.add("zoom-in");
+        homeBtn.classList.add("show");
+      });
+
+      // Step 2:
+      // Sub-circle clicked
+      subCircleTrigger?.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        newCircleContainer.classList.remove("show");
+        newCircleContainer.classList.add("hide");
+
+        oldCircleContainer.classList.remove("hide");
+      });
+
+      // Other circle links play sound before navigation
+      const directNavCircleLinks = document.querySelectorAll(
+        ".circle-container .circle:not(.rounded-circle-1) a, .circle-container-1 .circle a"
+      );
+
+      directNavCircleLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          const destination = link.getAttribute("href");
+
+          playCircleClickSound();
+
+          setTimeout(function () {
+            window.location.href = destination;
+          }, 600);
+        });
+      });
+    </script>
+  </body>
+</html>
