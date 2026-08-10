@@ -168,6 +168,8 @@ body[data-lang="Gujarati"] {
 
 .circle-container .circle {
   position: relative;
+  width: 12vw;
+  height: 12vw;
 }
 
 .circle-container .circle img {
@@ -177,6 +179,7 @@ body[data-lang="Gujarati"] {
   transform: scale(1) rotate(0deg);
   transition: transform 1s ease;
   transform-origin: center;
+  position: relative;
 }
 
 .circle-container .circle:hover img {
@@ -188,7 +191,7 @@ body[data-lang="Gujarati"] {
   width: 10.2vw;
   height: 10.2vw;
   background-color: #FFF0B5;
-  top: 48%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
@@ -260,6 +263,8 @@ body[data-lang="Gujarati"] {
 
 .circle-container-1 .circle {
   position: relative;
+    width: 12vw;
+  height: 12vw;
 }
 
 .circle-container-1 .circle img {
@@ -280,7 +285,7 @@ body[data-lang="Gujarati"] {
   width: 10.2vw;
   height: 10.2vw;
   background-color: #FFF0B5;
-  top: 48%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
