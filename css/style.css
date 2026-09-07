@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+/* djp.js injects this button expecting a close.png asset we don't have */
+.back-button {
+  display: none !important;
+}
+
 /* =========================
    Custom Fonts
    ========================= */

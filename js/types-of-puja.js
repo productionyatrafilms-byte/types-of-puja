@@ -36,15 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   );
   const movingCircle = document.querySelector(".moving-circle");
 
-  let translations = null;
-
-  try {
-    const res = await fetch("./assets/json/data.json", { cache: "no-store" });
-    if (!res.ok) throw new Error("Could not load ./assets/json/data.json");
-    translations = await res.json();
-  } catch (e) {
-    console.error(e);
-  }
+  let translations = typeof data !== "undefined" ? data : null;
 
   function getLangFromBtn(btn) {
     if (btn.classList.contains("english")) return "English";
