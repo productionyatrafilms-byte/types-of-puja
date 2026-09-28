@@ -41,7 +41,7 @@
 
 @font-face {
   font-family: "ITFDevanagari";
-  src: url("../../fonts/ITFDevanagari.ttc") format("truetype");
+  src: url("../assets/fonts/ITFDevanagari.ttc") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -49,7 +49,7 @@
 
 @font-face {
   font-family: "NotoSansGujaratiRegular";
-  src: url("../../fonts/NotoSansGujarati-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/NotoSansGujarati-Regular.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -513,7 +513,7 @@ nav {
     position: absolute;
     left: 50%;
     top: 48.7%;
-    background-image: url("./../images/pranam-bg-1.png");
+    background-image: url("./../assets/image/pranam-bg-1.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

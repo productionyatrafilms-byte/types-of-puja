@@ -50,7 +50,7 @@
   /* ITF Devanagari Bold */
   @font-face {
     font-family: "ITFDevanagariBold";
-    src: url("../assets/assets/fonts/ITFDevanagari-Bold-02.otf") format("opentype");
+    src: url("../assets/fonts/ITFDevanagari-Bold-02.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
