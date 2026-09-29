@@ -304,10 +304,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   }
 
-  setTimeout(() => {
-    playActiveSlideAnimation();
-    updateNav();
-  }, 0);
+  // Note: the reveal (and video start) is intentionally NOT triggered here.
+  // Triggering it immediately would start the video while it's still hidden
+  // behind the intro loader, so it'd already be a few seconds in by the time
+  // the loader fades out — visible as a brief flash of a mid-playback frame
+  // before it snaps back to 0. The "PAGE LOADER TIMELINE" below calls
+  // playActiveSlideAnimation() once the loader is fully gone instead, so the
+  // video only starts — cleanly, from 0 — once the reveal animation is done.
+  updateNav();
 
   swiper.on("slideChangeTransitionStart", () => {
     clearAnimationTimers();
