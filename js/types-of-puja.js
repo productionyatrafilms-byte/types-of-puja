@@ -245,6 +245,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       wrap.style.display = "none";
     }
 
+    // Pause and rewind this slide's video right away — otherwise it keeps
+    // playing/advancing in the background while some other slide is showing,
+    // and reappears mid-way through the moment this slide's wrap is revealed
+    // again (the wrap becomes visible via CSS before the reveal timeline
+    // below gets a chance to restart it).
+    const video = slide.querySelector(".frame-video");
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+
     void slide.offsetWidth;
 
     if (img1) img1.style.animation = "";
@@ -292,12 +303,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!activeSlide.classList.contains("swiper-slide-active")) return;
         activeSlide.classList.add("show-wrap");
 
-        // The video autoplays from page load, but stays hidden behind the
-        // intro loader/reveal animation for a few seconds — restart it here
-        // so what the user actually sees starts from the beginning.
+        // resetSlide() already rewound this video to 0 when the slide
+        // became inactive (or on first load), so it's just a matter of
+        // starting it once it's actually visible.
         const video = activeSlide.querySelector(".frame-video");
         if (video) {
-          video.currentTime = 0;
           video.play().catch(() => {});
         }
       }, 850),
