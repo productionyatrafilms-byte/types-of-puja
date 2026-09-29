@@ -26,80 +26,61 @@
       }
 
       /* =========================
-         Language Buttons
+         Language toggle — ported from gyanpanchami's #langSelect (radio pill)
          ========================= */
 
-      .nav-lang-container {
+      #langSelect {
         position: absolute;
-        width: 8.5vw;
-        height: 3vw;
-        display: flex;
         top: 2.8vw;
         right: 4vw;
-        justify-content: space-between;
-        align-items: center;
-        pointer-events: auto;
-        z-index: 10;
+        z-index: 999999;
       }
 
-      .nav-lang-container .nav-btn {
-        width: 2.2vw;
-        height: 2.2vw;
-        font-family: "BalooRegular";
-        text-align: center;
-        border-radius: 50%;
-        z-index: 11;
-        border: 0.2vw solid var(--text, #9A3227);
-        padding: 0.5vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 2vw;
-        color: var(--text, #9A3227);
-        opacity: 0.6;
-        cursor: pointer !important;
-        transition: transform 250ms ease, opacity 250ms ease, background-color 0.8s ease;
-        transform: scale(1);
+      #language {
         background-color: transparent;
-      }
-
-      .nav-lang-container .nav-btn.active {
+        border: 0.21vw solid #fff;
+        border-radius: 50vw;
+        box-shadow: 0 0.2vw 0.1vw rgba(0, 0, 0, 0.25);
+        text-align: center;
         display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 3.39vw;
+        padding: 0 0.4vw;
+      }
+
+      #language label {
+        cursor: pointer;
+        padding: 0.15vw;
+        display: flex !important;
         justify-content: center;
-        align-items: center !important;
-        opacity: 1;
-        transform: scale(1.15);
-        background-color: var(--primary, #FFF8B3);
+        align-items: center;
+        flex-wrap: wrap;
       }
 
-      /* =========================
-         Moving Circle
-         ========================= */
+      #language label input {
+        display: none;
+      }
 
-      .moving-circle {
-        position: absolute;
-        pointer-events: none;
-        top: 0vw!important;
-        right: 5.5vw!important;
-        z-index: 0;
-        width: 3vw;
-        height: 3vw;
-        border: 0.15vw solid var(--text, #9A3227);
+      #language label span {
+        width: 2.375vw;
+        aspect-ratio: 1;
+        box-sizing: border-box;
+        border: 0.21vw solid white;
+        overflow: hidden;
+        font-size: 1.6vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 50%;
-        transition: transform 300ms ease;
+        color: white;
+        background: #802922;
       }
 
-      @keyframes jiggleX {
-        0%   { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0); }
-        25%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(-0.6vw); }
-        50%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0.6vw); }
-        75%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(-0.3vw); }
-        90%  { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0.3vw); }
-        100% { transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0); }
-      }
-
-      .moving-circle.jiggle {
-        animation: jiggleX 0.9s ease-in-out 1;
+      #language input:checked + span {
+        background: #fff;
+        color: #802922;
+        border-color: #ffd35a;
       }
     </style>
   </head>
@@ -107,12 +88,19 @@
     <a href="bhaav-puja.html" class="back-btn">
       <i class="fa-solid fa-arrow-left"></i>
     </a>
-   <div class="nav-lang-container">
-          <div class="nav-btn english active">E</div>
-          <div class="nav-btn hindi">H</div>
-          <div class="nav-btn gujrati">G</div>
-          <div class="moving-circle"></div>
-        </div>
+   <div id="langSelect">
+      <div id="language">
+        <label><input type="radio" name="lang" id="en" value="English">
+          <span>E</span>
+        </label>
+        <label><input type="radio" name="lang" id="hi" value="Hindi">
+          <span>H</span>
+        </label>
+        <label><input type="radio" name="lang" id="gu" value="Gujarati">
+          <span>G</span>
+        </label>
+      </div>
+    </div>
     <div class="pranam-container">
       <div class="pranam-img">
         
@@ -133,11 +121,6 @@
       // click sound effects
       const backBtnClickSound = new Audio("./assets/audio/pop.mp3");
       const homeBtn1ClickSound = new Audio("./assets/audio/11.mp3");
-
-      // language voice-over audio
-      const engAudio = new Audio("./assets/audio/Eng.mpeg");
-      const hinAudio = new Audio("./assets/audio/Hin.mpeg");
-      const gujAudio = new Audio("./assets/audio/Guj.mpeg");
 
       function playClickSound(audio) {
         audio.currentTime = 0;
@@ -179,54 +162,6 @@
         navigateWithSound(homeBtn1, homeBtn1ClickSound, 1000);
       }
 
-      // language buttons
-      const englishBtn = document.querySelector(".nav-lang-container .english");
-      const hindiBtn = document.querySelector(".nav-lang-container .hindi");
-      const gujratiBtn = document.querySelector(".nav-lang-container .gujrati");
-      const movingCircle = document.querySelector(".moving-circle");
-
-      const langButtons = [englishBtn, hindiBtn, gujratiBtn];
-
-      function playAudio(audio) {
-        if (!audio) return;
-        audio.currentTime = 0;
-        audio.play().catch(function (err) {
-          console.error("Error playing language audio:", err);
-        });
-      }
-
-      function setActiveLangBtn(activeBtn) {
-        langButtons.forEach((btn) => {
-          if (btn) btn.classList.remove("active");
-        });
-
-        if (activeBtn) activeBtn.classList.add("active");
-      }
-
-      function triggerJiggle() {
-        if (!movingCircle) return;
-        movingCircle.classList.remove("jiggle");
-        void movingCircle.offsetWidth; // restart animation
-        movingCircle.classList.add("jiggle");
-      }
-
-      englishBtn?.addEventListener("click", () => {
-        setActiveLangBtn(englishBtn);
-        playAudio(engAudio);
-        triggerJiggle();
-      });
-
-      hindiBtn?.addEventListener("click", () => {
-        setActiveLangBtn(hindiBtn);
-        playAudio(hinAudio);
-        triggerJiggle();
-      });
-
-      gujratiBtn?.addEventListener("click", () => {
-        setActiveLangBtn(gujratiBtn);
-        playAudio(gujAudio);
-        triggerJiggle();
-      });
     </script>
     <script src="./js/data.js"></script>
     <script src="./js/script.js"></script>

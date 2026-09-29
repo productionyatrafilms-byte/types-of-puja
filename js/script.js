@@ -52,28 +52,9 @@ window.addEventListener("resize", checkScreenSize);
   }
 
   // =========================
-  // LANGUAGE SWITCHER
+  // LANGUAGE SWITCHER (gyanpanchami-style radio toggle)
   // =========================
-  const container = document.querySelector(".nav-lang-container");
-  const buttons = Array.from(
-    document.querySelectorAll(".nav-lang-container .nav-btn"),
-  );
-  const movingCircle = document.querySelector(".moving-circle");
-
   let translations = typeof data !== "undefined" ? data : null;
-
-  function getLangFromBtn(btn) {
-    if (btn.classList.contains("english")) return "English";
-    if (btn.classList.contains("hindi")) return "Hindi";
-    if (btn.classList.contains("gujrati")) return "Gujarati";
-    return DEFAULT_LANG;
-  }
-
-  function getBtnFromLang(lang) {
-    if (lang === "Hindi") return document.querySelector(".nav-btn.hindi");
-    if (lang === "Gujarati") return document.querySelector(".nav-btn.gujrati");
-    return document.querySelector(".nav-btn.english") || buttons[0];
-  }
 
   function getSavedLanguage() {
     const savedLang = localStorage.getItem(LANG_KEY);
@@ -131,84 +112,37 @@ window.addEventListener("resize", checkScreenSize);
     });
   }
 
-  function setActive(btn, { jiggle = true, save = true, playAudio = false } = {}) {
-    if (!container || !buttons.length || !movingCircle || !btn) return;
+  const langRadios = {
+    English: document.getElementById("en"),
+    Hindi: document.getElementById("hi"),
+    Gujarati: document.getElementById("gu"),
+  };
 
-    buttons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
+  function setLang(lang, { save = true, playAudio = false } = {}) {
+    const radio = langRadios[lang];
+    if (radio) radio.checked = true;
 
-    const lang = getLangFromBtn(btn);
+    applyLanguage(lang);
 
     if (save) {
       localStorage.setItem(LANG_KEY, lang);
     }
 
-    applyLanguage(lang);
-
     if (playAudio) {
       playLanguageAudio(lang);
     }
-
-    const cRect = container.getBoundingClientRect();
-    const bRect = btn.getBoundingClientRect();
-
-    const btnCenterX = bRect.left - cRect.left + bRect.width / 2;
-    const btnCenterY = bRect.top - cRect.top + bRect.height / 2;
-
-    const circleW = movingCircle.offsetWidth;
-    const circleH = movingCircle.offsetHeight;
-
-    const x = btnCenterX - circleW / 2;
-    const y = btnCenterY - circleH / 2;
-
-    movingCircle.style.setProperty("--x", `${x}px`);
-    movingCircle.style.setProperty("--y", `${y}px`);
-    movingCircle.style.transform = `translate(${x}px, ${y}px)`;
-
-    if (jiggle) {
-      movingCircle.classList.remove("jiggle");
-      void movingCircle.offsetWidth;
-      movingCircle.classList.add("jiggle");
-    }
   }
+
+  Object.entries(langRadios).forEach(([lang, radio]) => {
+    radio?.addEventListener("click", () => {
+      setLang(lang, { save: true, playAudio: true });
+    });
+  });
 
   const savedLang = getSavedLanguage();
-  const savedBtn = getBtnFromLang(savedLang);
-
-  applyLanguage(savedLang);
-
-  if (savedBtn) {
-    setActive(savedBtn, { jiggle: false, save: false, playAudio: false });
-  }
+  setLang(savedLang, { save: false, playAudio: false });
 
   document.documentElement.style.visibility = "";
-
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      setActive(btn, { jiggle: true, save: true, playAudio: true });
-    });
-  });
-
-  window.addEventListener("resize", () => {
-    const active =
-      document.querySelector(".nav-lang-container .nav-btn.active") ||
-      getBtnFromLang(getSavedLanguage());
-
-    if (active) {
-      setActive(active, { jiggle: false, save: false, playAudio: false });
-    }
-  });
-
-  function setSavedLanguageAfterAnimation() {
-    const lang = getSavedLanguage();
-    const btn = getBtnFromLang(lang);
-
-    if (!btn) return;
-
-    requestAnimationFrame(() => {
-      setActive(btn, { jiggle: false, save: false, playAudio: false });
-    });
-  }
 
   // =========================
   // PAGE LOADER TIMELINE
@@ -253,21 +187,6 @@ window.addEventListener("resize", checkScreenSize);
     }
 
     document.body.classList.add("page-ready", "main-visible");
-
-    if (container) {
-      const onAnimEnd = (e) => {
-        if (e.animationName === "bubblePop") {
-          container.removeEventListener("animationend", onAnimEnd);
-          setSavedLanguageAfterAnimation();
-        }
-      };
-
-      container.addEventListener("animationend", onAnimEnd);
-
-      setTimeout(() => {
-        setSavedLanguageAfterAnimation();
-      }, 750);
-    }
 
     setTimeout(() => {
       playActiveSlideAnimation();

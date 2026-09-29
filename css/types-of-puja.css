@@ -11,11 +11,6 @@
     padding: 0;
   }
 
-  /* djp.js injects this button expecting a close.png asset we don't have */
-  .back-button {
-    display: none !important;
-  }
-
   /* =========================================================
     CUSTOM FONTS
     ========================================================= */
@@ -80,12 +75,13 @@
     width: 100%;
     padding: 2vw 5vw;
     font-family: "BalooRegular";
+    z-index: 20;
   }
 
 
   /* hidden state */
   .home-btn,
-  .nav-lang-container {
+  #langSelect {
     opacity: 0;
     visibility: hidden;
     transform: scale(0.2) translateY(1vw);
@@ -121,7 +117,7 @@
 
   /* when page is ready */
   .page-ready .home-btn,
-  .page-ready .nav-lang-container {
+  .page-ready #langSelect {
     visibility: visible;
     animation: bubblePop 700ms ease forwards;
   }
@@ -240,104 +236,55 @@
   }
 
   /* =========================================================
-    LANGUAGE SWITCHER
+    LANGUAGE SWITCHER — ported from gyanpanchami's #langSelect (radio pill)
     ========================================================= */
-  .nav-lang-container {
-    width: 8.5vw;
-    height: 3vw;
+  #language {
+    background-color: transparent;
+    border: 0.21vw solid #fff;
+    border-radius: 50vw;
+    box-shadow: 0 0.2vw 0.1vw rgba(0, 0, 0, 0.25);
+    text-align: center;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-evenly;
+    height: 3.39vw;
+    padding: 0 0.4vw;
     pointer-events: auto;
     z-index: 10;
   }
 
-  .nav-lang-container .nav-btn {
-    width: 2.2vw;
-    height: 2.2vw;
-    font-family: "BalooRegular";
-    text-align: center;
-    border-radius: 50%;
-    z-index: 11;
-    border: 0.3vb solid var(--text);
-    padding: 0.5vw;
-    display: flex;
+  #language label {
+    cursor: pointer;
+    padding: 0.15vw;
+    display: flex !important;
     justify-content: center;
     align-items: center;
-    font-size: 2vw;
-    color: var(--text);
-    opacity: 0.6;
-    cursor: pointer !important;
-    transition:
-      transform 250ms ease,
-      opacity 250ms ease,
-      background-color 0.8s ease;
-    transform: scale(1);
-    background-color: transparent;
+    flex-wrap: wrap;
   }
 
-  .nav-lang-container .nav-btn.active {
+  #language label input {
+    display: none;
+  }
+
+  #language label span {
+    width: 2.375vw;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    border: 0.21vw solid white;
+    overflow: hidden;
+    font-size: 1.6vw;
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center !important;
-    opacity: 1;
-    transform: scale(1.15);
-    background-color: var(--primary);
-  }
-
-  /* =========================================================
-    MOVING CIRCLE INDICATOR
-    ========================================================= */
-  .moving-circle {
-    position: absolute;
-    pointer-events: none;
-    top: 2.5vw !important;
-    right: 10.54vw !important;
-    z-index: 0;
-    width: 3vw;
-    height: 3vw;
-    border: 0.3vb solid var(--text);
     border-radius: 50%;
-    transition: transform 300ms ease;
-    opacity: 0;
-    visibility: hidden;
+    color: white;
+    background: #802922;
   }
 
-  .page-ready .moving-circle {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.6s ease;
-    transition-delay: 0.4s;
-  }
-
-  .moving-circle.jiggle {
-    animation: jiggleX 0.9s ease-in-out 1;
-  }
-
-  @keyframes jiggleX {
-    0% {
-      transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0);
-    }
-
-    25% {
-      transform: translate(var(--x, 0px), var(--y, 0px)) translateX(-0.6vw);
-    }
-
-    50% {
-      transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0.6vw);
-    }
-
-    75% {
-      transform: translate(var(--x, 0px), var(--y, 0px)) translateX(-0.3vw);
-    }
-
-    90% {
-      transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0.3vw);
-    }
-
-    100% {
-      transform: translate(var(--x, 0px), var(--y, 0px)) translateX(0);
-    }
+  #language input:checked + span {
+    background: #fff;
+    color: #802922;
+    border-color: #ffd35a;
   }
 
   /* =========================================================
