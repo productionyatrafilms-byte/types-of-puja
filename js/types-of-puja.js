@@ -276,6 +276,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const activeSlide = swiper.slides[swiper.activeIndex];
     if (!activeSlide) return;
 
+    // only the active slide's video is allowed to load
+    document.querySelectorAll(".pujaSwiper .frame-video").forEach((video) => {
+      video.preload = video.closest(".swiper-slide") === activeSlide ? "auto" : "none";
+    });
+
     const img1 = activeSlide.querySelector(".swiper-slide-img-1");
     const img2 = activeSlide.querySelector(".swiper-slide-img-2");
 
